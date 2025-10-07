@@ -23,6 +23,12 @@ public class Student {
     private Long id;
 
     /**
+     * Student code
+     */
+    @Column(name = "student_code", nullable = false, unique = true, length = 20)
+    private String studentCode;
+
+    /**
      * Full name of the student
      */
     @Column(name = "name", nullable = false, length = 50)
@@ -31,7 +37,7 @@ public class Student {
     /**
      * Date of birth
      */
-    @Column(name = "dob", nullable = false)
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     /**
@@ -44,7 +50,7 @@ public class Student {
     /**
      * Address of the student
      */
-    @Column(name = "address")
+    @Column(name = "address", length = 50)
     private String address;
 
     /**
@@ -61,16 +67,10 @@ public class Student {
     private List<Grade> grades;
 
     /**
-     * Parent of the student
-     */
-    @OneToOne(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Parent parent;
-
-    /**
-     * Associated user account
+     * One-to-one relationship to the User account
      */
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = true)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     /**

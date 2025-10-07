@@ -28,15 +28,16 @@ public class Subject {
     /**
      * Name of the subject
      */
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", nullable = false)
+    private SubjectName name;
 
     /**
      * Teacher responsible for this subject
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", nullable = false)
-    private Staff teacher;
+    private Teacher teacher;
 
     /**
      * List of grades for this subject

@@ -35,7 +35,7 @@ public class ClassRoom {
     /**
      * Grade level, e.g., "10"
      */
-    @Column(name = "grade_level", nullable = false, length = 10)
+    @Column(name = "grade_level", nullable = false, length = 20)
     private String gradeLevel;
 
     /**
@@ -45,18 +45,18 @@ public class ClassRoom {
     private String schoolYear;
 
     /**
-     * Homeroom teacher of the class
-     */
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "homeroom_teacher_id", nullable = false)
-    private Staff homeroomTeacher;
-
-    /**
      * The school this class belongs to
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id", nullable = false)
     private School school;
+
+    /**
+     * Homeroom teacher of the class
+     */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "homeroom_teacher_id", nullable = false)
+    private Teacher homeroomTeacher;
 
     /**
      * List of students in the class

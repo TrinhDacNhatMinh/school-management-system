@@ -38,7 +38,7 @@ public class User {
     /**
      * Contact email
      */
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", length = 50)
     private String email;
 
     /**

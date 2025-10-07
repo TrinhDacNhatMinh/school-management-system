@@ -27,10 +27,11 @@ public class Grade {
     private Long id;
 
     /**
-     * Semester name or term (e.g., "Fall 2025")
+     * Semester name or term
      */
-    @Column(name = "semester", nullable = false, length = 20)
-    private String semester;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "semester", nullable = false)
+    private SemesterName semester;
 
     /**
      * Score obtained by the student for the subject
@@ -39,6 +40,12 @@ public class Grade {
     @Min(0)
     @Max(10)
     private Double score;
+
+    /**
+     * School year, e.g., "2025-2026"
+     */
+    @Column(name = "school_year", nullable = false, length = 20)
+    private String schoolYear;
 
     /**
      * Date when the grade record was created.
@@ -60,5 +67,13 @@ public class Grade {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
+
+    /**
+     * Enum for predefined semester names
+     */
+    public enum SemesterName {
+        FIRST_SEMESTER,
+        SECOND_SEMESTER
+    }
 
 }

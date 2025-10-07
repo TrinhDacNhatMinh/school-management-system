@@ -28,13 +28,13 @@ public class School {
     /**
      * Name of the school
      */
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
     /**
      * Address of the school
      */
-    @Column(name = "address", nullable = false)
+    @Column(name = "address",nullable = false, length = 50)
     private String address;
 
     /**

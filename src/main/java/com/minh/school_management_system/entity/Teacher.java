@@ -9,17 +9,15 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * Staff entity represents a staff member in a school,
- * including teachers, admin staff, etc.
- * Each staff is associated with a User account and a School.
+ * Teacher
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "staff")
-public class Staff {
+@Table(name = "teacher")
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +35,12 @@ public class Staff {
      */
     @Column(name = "phone", length = 20)
     private String phone;
+
+    @Column(name = "address", length = 50)
+    private String address;
+
+    @Column(name = "avatar")
+    private String avatar;
 
     /**
      * Many-to-one relationship to the School

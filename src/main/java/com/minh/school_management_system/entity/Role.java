@@ -36,9 +36,7 @@ public class Role {
     public enum RoleName {
         ROLE_ADMIN,
         ROLE_TEACHER,
-        ROLE_STAFF,
         ROLE_PARENT,
-        ROLE_STUDENT
     }
 
 }

@@ -3,7 +3,7 @@ package com.minh.school_management_system.dto.response;
 import lombok.Data;
 
 @Data
-public class StaffResponse {
+public class TeacherResponse {
     private Long id;
     private String name;
     private String phone;

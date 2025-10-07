@@ -1,28 +1,21 @@
 package com.minh.school_management_system.service;
 
-import com.minh.school_management_system.dto.request.StaffRequest;
-import com.minh.school_management_system.dto.response.StaffResponse;
+import com.minh.school_management_system.dto.request.TeacherRequest;
+import com.minh.school_management_system.dto.response.TeacherResponse;
 
 import java.util.List;
 
-public interface StaffService {
+public interface TeacherService {
 
     // CRUD
-    public StaffResponse createStaff(StaffRequest request);
+    public TeacherResponse createTeacher(TeacherRequest request);
 
-    public List<StaffResponse> getAllStaffs();
+    public List<TeacherResponse> getAllTeachers();
 
-    public StaffResponse getStaffById(Long id);
+    public TeacherResponse getTeacherById(Long id);
 
-    public StaffResponse updateStaff(Long id, StaffRequest request);
+    public TeacherResponse updateTeacher(Long id, TeacherRequest request);
 
-    public void deleteStaff(Long id);
-
-    // Manage staff roles
-    public StaffResponse assignRole(Long staffId, Long roleId);
-
-    public StaffResponse changeRole(Long staffId, Long newRoleId);
-
-    public void removeRole(Long staffId);
+    public void deleteTeacher(Long id);
 
 }

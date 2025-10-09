@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class TeacherRequest {
+    private String username;
     private String name;
     private String phone;
     private Long schoolId;
-    private Long userId;
 }

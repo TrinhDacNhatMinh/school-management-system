@@ -11,15 +11,21 @@ import org.mapstruct.MappingTarget;
 public interface StudentMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "studentCode", ignore = true)
     @Mapping(target = "classRoom", ignore = true)
     @Mapping(target = "grades", ignore = true)
     @Mapping(target = "user", ignore = true)
     public Student toEntity(StudentRequest request);
 
-    @Mapping(target = "classroomName", source = "classroom.name")
+    @Mapping(target = "classroomName", source = "classRoom.name")
     @Mapping(target = "parentUsername",source = "user.username")
     public StudentResponse toResponse(Student entity);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "studentCode", ignore = true)
+    @Mapping(target = "classRoom", ignore = true)
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "user", ignore = true)
     public void updateEntity(StudentRequest request, @MappingTarget Student entity);
 
 }

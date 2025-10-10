@@ -17,6 +17,8 @@ public interface SchoolMapper {
     @Mapping(target = "totalClasses", expression = "java(entity.getClasses() != null ? entity.getClasses().size() : 0)")
     public SchoolResponse toResponse(School entity);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "classes", ignore = true)
     public void updateEntity(SchoolRequest request, @MappingTarget School entity);
 
 }

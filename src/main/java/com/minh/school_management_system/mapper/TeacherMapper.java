@@ -11,6 +11,8 @@ import org.mapstruct.MappingTarget;
 public interface TeacherMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "address", ignore = true)
+    @Mapping(target = "avatar", ignore = true)
     @Mapping(target = "school", ignore = true)
     @Mapping(target = "homeroomClasses", ignore = true)
     @Mapping(target = "subjects", ignore = true)
@@ -23,6 +25,13 @@ public interface TeacherMapper {
     @Mapping(target = "totalHomeroomClasses", expression = "java(entity.getHomeroomClasses() != null ? entity.getHomeroomClasses().size() : 0)")
     public TeacherResponse toResponse(Teacher entity);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "address", ignore = true)
+    @Mapping(target = "avatar", ignore = true)
+    @Mapping(target = "school", ignore = true)
+    @Mapping(target = "homeroomClasses", ignore = true)
+    @Mapping(target = "subjects", ignore = true)
+    @Mapping(target = "user", ignore = true)
     public void updateEntity(TeacherRequest request, @MappingTarget Teacher entity);
 
 }

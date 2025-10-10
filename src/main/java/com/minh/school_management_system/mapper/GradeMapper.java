@@ -20,6 +20,10 @@ public interface GradeMapper {
     @Mapping(target = "subjectName", source = "subject.name")
     public GradeResponse toResponse(Grade entity);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createAt", ignore = true)
+    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "subject", ignore = true)
     public void updateEntity(GradeRequest request, @MappingTarget Grade entity);
 
 }

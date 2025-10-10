@@ -18,6 +18,9 @@ public interface SubjectMapper {
     @Mapping(target = "teacherName", source = "teacher.name")
     public SubjectResponse toResponse(Subject entity);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "grades", ignore = true)
+    @Mapping(target = "teacher", ignore = true)
     public void updateEntity(SubjectRequest request, @MappingTarget Subject entity);
 
 }

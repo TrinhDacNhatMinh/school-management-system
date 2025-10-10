@@ -20,6 +20,10 @@ public interface ClassRoomMapper {
     @Mapping(target = "homeroomTeacherName", source = "homeroomTeacher.name")
     public ClassRoomResponse toResponse(ClassRoom entity);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "school", ignore = true)
+    @Mapping(target = "homeroomTeacher", ignore = true)
+    @Mapping(target = "students", ignore = true)
     public void updateEntity(ClassRoomRequest request, @MappingTarget ClassRoom entity);
 
 }

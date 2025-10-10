@@ -13,5 +13,5 @@ public class StudentResponse {
     private String gender;
     private String address;
     private String classroomName;
-    private String parentUserame;
+    private String parentUsername;
 }

@@ -4,6 +4,7 @@ import com.minh.school_management_system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -20,20 +22,7 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtUtil jwtUtil;
-    private final UserService userService;
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
+    private final @Lazy UserService userService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -41,34 +30,30 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtUtil, userService);
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-
-                        // ========== PUBLIC ==========
+                        // public
                         .requestMatchers("/api/auth/login").permitAll()
-
-                        // ========== ADMIN ==========
-                        .requestMatchers("/api/schools/**", "/api/teachers/**", "/api/students/**")
-                        .hasRole("ADMIN")
-
-                        // ========== TEACHER ==========
-                        .requestMatchers("/api/classes/**", "/api/subjects/**", "/api/grades/**")
-                        .hasRole("TEACHER")
-
-                        // ========== PARENT ==========
-                        .requestMatchers("/api/children/**", "/api/grades/my-children/**")
-                        .hasRole("PARENT")
-
-                        // ========== OTHER ==========
+                        // admin
+                        .requestMatchers("/api/schools/**", "/api/teachers/**", "/api/students/**").hasRole("ADMIN")
+                        // teacher
+                        .requestMatchers("/api/classes/**", "/api/subjects/**", "/api/grades/**").hasRole("TEACHER")
+                        // parent
+                        .requestMatchers("/api/children/**", "/api/grades/my-children/**").hasRole("PARENT")
+                        // all others
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userService),
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

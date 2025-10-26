@@ -41,15 +41,15 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // public
-                        .requestMatchers("/api/auth/login").permitAll()
-                        // admin
-                        .requestMatchers("/api/schools/**", "/api/teachers/**", "/api/students/**").hasRole("ADMIN")
-                        // teacher
-                        .requestMatchers("/api/classes/**", "/api/subjects/**", "/api/grades/**").hasRole("TEACHER")
-                        // parent
-                        .requestMatchers("/api/children/**", "/api/grades/my-children/**").hasRole("PARENT")
-                        // all others
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/classrooms/**").hasRole("ADMIN")
+                        .requestMatchers("/api/grades/my-children/**").hasRole("PARENT")
+                        .requestMatchers("/api/grades/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/api/schools/**").hasRole("ADMIN")
+                        .requestMatchers("/api/students/**").hasRole("ADMIN")
+                        .requestMatchers("/api/subjects/**").hasRole("ADMIN")
+                        .requestMatchers("/api/teachers/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))

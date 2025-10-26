@@ -73,24 +73,25 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional
-    public void updateTeacher(Long teacherId, UpdatedTeacherRequest request) {
-        Teacher teacher = teacherRepository.findById(teacherId)
+    public TeacherResponse updateTeacher(Long teacherId, UpdatedTeacherRequest request) {
+        Teacher existing = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with id " + teacherId));
 
         if (request.getName() != null && !request.getName().isEmpty()) {
-            teacher.setName(request.getName());
+            existing.setName(request.getName());
         }
         if (request.getPhone() != null && !request.getPhone().isEmpty()) {
-            teacher.setPhone(request.getPhone());
+            existing.setPhone(request.getPhone());
         }
         if (request.getAddress() != null && !request.getAddress().isEmpty()) {
-            teacher.setAddress(request.getAddress());
+            existing.setAddress(request.getAddress());
         }
         if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
-            teacher.setAvatar(request.getAvatar());
+            existing.setAvatar(request.getAvatar());
         }
 
-        teacherRepository.save(teacher);
+        Teacher updated = teacherRepository.save(existing);
+        return teacherMapper.toResponse(updated);
     }
 
     @Override

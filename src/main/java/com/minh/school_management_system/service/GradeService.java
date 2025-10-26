@@ -16,7 +16,7 @@ public interface GradeService {
 
     public List<GradeResponse> getGradesBySubject(Long subjectId);
 
-    public List<GradeResponse> getGradesBySemester(String semester);
+    public  List<GradeResponse> getGradesOfMyChildren();
 
     public GradeResponse updateGrade(Long id, GradeRequest request);
 

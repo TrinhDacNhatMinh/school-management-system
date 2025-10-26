@@ -3,12 +3,15 @@ package com.minh.school_management_system.service.impl;
 import com.minh.school_management_system.dto.request.GradeRequest;
 import com.minh.school_management_system.dto.response.GradeResponse;
 import com.minh.school_management_system.entity.Grade;
+import com.minh.school_management_system.entity.Student;
+import com.minh.school_management_system.entity.User;
 import com.minh.school_management_system.exception.ResourceNotFoundException;
 import com.minh.school_management_system.mapper.GradeMapper;
 import com.minh.school_management_system.repository.GradeRepository;
 import com.minh.school_management_system.repository.StudentRepository;
 import com.minh.school_management_system.repository.SubjectRepository;
 import com.minh.school_management_system.service.GradeService;
+import com.minh.school_management_system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,7 @@ public class GradeServiceImpl implements GradeService {
     private final GradeMapper gradeMapper;
     private final StudentRepository studentRepository;
     private final SubjectRepository subjectRepository;
+    private final UserService userService;
 
     @Override
     @Transactional
@@ -67,8 +71,11 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<GradeResponse> getGradesBySemester(String semester) {
-        List<Grade> grades = gradeRepository.findBySemester(Grade.SemesterName.valueOf(semester));
+    public List<GradeResponse> getGradesOfMyChildren() {
+        User parent = userService.getCurrentUser();
+        Student student = studentRepository.findByUser_Username(parent.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        List<Grade> grades = gradeRepository.findByStudent_Id(student.getId());
         return grades.stream()
                 .map(gradeMapper::toResponse)
                 .toList();
